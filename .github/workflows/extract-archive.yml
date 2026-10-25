@@ -15,53 +15,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           persist-credentials: true
 
-      - name: Extract Archive.zip
-        shell: bash
+      - name: Extract ZIP
         run: |
           set -e
-
-          if [ ! -f Archive.zip ]; then
-            echo "Archive.zip nahi mili!"
-            exit 1
-          fi
-
           mkdir -p extracted
           unzip -o Archive.zip -d extracted
+          echo "ZIP contents:"
+          find extracted -maxdepth 5 -print | head -300
 
-          echo "ZIP ke andar ki files:"
-          find extracted -maxdepth 3 -type f | head -100
-
-      - name: Copy source files to repository root
-        shell: bash
+      - name: Find and copy Flutter source
         run: |
           set -e
+          PUBSPEC="$(find extracted -type f -name pubspec.yaml -print -quit)"
 
-          SOURCE_DIR="extracted/PocketFlash_Reconstructed_Source"
-
-          if [ ! -f "$SOURCE_DIR/pubspec.yaml" ]; then
-            echo "Expected Flutter source folder nahi mila."
+          if [ -z "$PUBSPEC" ]; then
+            echo "ERROR: pubspec.yaml ZIP mein nahi mila."
             exit 1
           fi
+
+          SOURCE_DIR="$(dirname "$PUBSPEC")"
+          echo "Found project: $SOURCE_DIR"
 
           cp -R "$SOURCE_DIR"/. .
           rm -rf extracted
           rm -f Archive.zip
 
+          test -f pubspec.yaml
+          test -f lib/main.dart
+
       - name: Commit extracted files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add -A
 
           if ! git diff --cached --quiet; then
-            git commit -m "Extract PocketFlash source from Archive.zip"
+            git commit -m "Extract PocketFlash source"
             git push
-          else
-            echo "Commit karne ke liye koi changes nahi."
           fi
