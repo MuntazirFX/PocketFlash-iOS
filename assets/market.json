@@ -1,0 +1,22 @@
+{
+    "games": [
+        {
+            "id": "skkd2",
+            "originalTitle": "Crazy Flasher 2",
+            "zh": {
+                "title": "战吼3",
+                "category": "策略",
+                "downloadUrl": "https://www.mhhf.com/files/game/3617/bb8fa8a4-6360-4297-8977-e9cf5d67fdfb.swf",
+                "iconUrl": "https://www.mhhf.com/files/game/3617/bb8fa8a4-6360-4297-8977-e9cf5d67fdfb.jpg",
+                "size": 19399
+            },
+            "en": {
+                "title": "Crazy Flasher 2",
+                "category": "Action",
+                "downloadUrl": null,
+                "iconUrl": "https://...",
+                "size": 19399
+            }
+        }
+    ]
+}

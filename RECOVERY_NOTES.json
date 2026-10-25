@@ -1,0 +1,24 @@
+{
+  "source_status": "reconstructed starter, not original source",
+  "input": "Runner.ipa",
+  "reused_assets": [
+    "Ruffle JS/WASM",
+    "player.html",
+    "sample SWF",
+    "market.json",
+    "pocketflash.json",
+    "text and image assets"
+  ],
+  "added_features": [
+    "local SWF import",
+    "persistent library metadata",
+    "delete imported game",
+    "Ruffle playback attempt"
+  ],
+  "not_verified": [
+    "flutter pub get",
+    "iOS compile",
+    "device playback",
+    "IPA signing"
+  ]
+}

@@ -1,0 +1,152 @@
+Here is the English translation of the membership and auto-renewal agreement:
+
+Membership and Renewal Agreement
+
+Updated: July 1, 2025
+
+Welcome to the membership and auto-renewal services of the "PocketFlash" software!
+
+Developer WenLi Lei (including its affiliated companies, hereinafter referred to as "Duo Shao" or "We") is the actual developer and operator of the "PocketFlash" App (hereinafter referred to as "this site" or "PocketFlash").
+
+The services provided by this site combine free and paid offerings. You must first become a registered user before purchasing membership and auto-renewal services. To protect your rights, please read all contents of this Service Agreement (hereinafter referred to as "this Agreement") carefully before purchasing such services.
+
+This site reminds you to review the following content thoroughly. If you disagree with any clause herein, please do not proceed with confirmation or use the services under this Agreement. By confirming your acceptance of this Agreement or using the services hereunder, you agree to enter into an agreement with this site and voluntarily accept and comply with all its terms, membership and auto-renewal agreements, and privacy policy.
+Confirmation and Acceptance of the Membership and Auto-Renewal Service Agreement
+
+This Agreement and related service terms may be revised due to business development needs. This site will announce changes via effective means within the "PocketFlash" App. After modifications, if you do not accept the revised terms, you may choose to terminate the membership and auto-renewal services. Continued use of the services constitutes acceptance of the modified Agreement.
+Membership and Auto-Renewal Services
+
+Membership subscription and auto-renewal are paid services offered by this site. You must claim or pay to activate these services to use them.
+
+2.1 Membership and Auto-Renewal Services
+Membership Subscription Service: After claiming or activating this service, you will enjoy rights including but not limited to: unlimited use of all rhyming query functions without restrictions.
+
+You can activate the subscription service, view membership status, expiration date, and other related information under "Settings" → "Membership Plan" in the "PocketFlash" App.
+
+Auto-Renewal Service: By activating this service, you authorize "PocketFlash" to deduct fees for the next billing cycle from your designated third-party payment account before your current cycle expires.
+
+You can activate auto-renewal under "Settings" → "Membership Plan."
+
+To confirm subscription status, email noahdeveloper@163.com or check subscription records in your third-party payment platform (e.g., Apple users: "Settings" → "iTunes Store & App Store" → "Apple ID" → "View Apple ID" → "Subscriptions").
+
+Specific service content and activation processes are subject to the information provided in the app.
+
+2.2 Activation of Membership and Auto-Renewal Services
+Users must follow the activation process and rules on the site to claim or pay for the services.
+Apple Users: Must use in-app purchase (IAP).
+
+Android Users: Must use in-store payment or third-party payment methods.
+
+Fees are displayed at the time of activation. Prices include local taxes. Activated services are non-transferable. Fees are non-refundable regardless of usage.
+
+2.3 Service Period
+Membership durations:
+
+Weekly: 7 natural days
+
+Monthly: 31 natural days
+
+Quarterly: 90 natural days
+
+Annual: 365 natural days (varies by region).
+
+The validity period corresponds to your selected payment cycle. Membership benefits automatically expire afterward.
+
+Details are available on the relevant app pages.
+
+2.4 User Conduct
+You may NOT activate services for yourself or others via:
+Non-personal purposes (e.g., profit or business).
+
+Bots, spiders, crawlers, or automated software.
+
+Dishonest means or violation of good faith.
+
+Non-designated methods.
+
+Infringement of this site’s or others’ rights.
+
+Violations of laws or regulations.
+
+While using the services, you MUST NOT:
+Publish, transmit, or store illegal content (e.g., violence, obscenity).
+
+Violate intellectual property, privacy, or trade secrets.
+
+Mislead or deceive others.
+
+Distribute ads or spam.
+
+Engage in unlawful or immoral activities.
+
+Membership is for personal use only. Without written permission, you MAY NOT:
+Collect other users’ information to spam or harass them.
+
+Publish promotional content.
+
+Transfer the service to others.
+
+Conduct unauthorized actions.
+
+2.5 Responsibility
+You are solely responsible for all actions after purchasing the services, including posted content and its consequences. Use content at your own risk.
+
+2.6 Service Modifications or Termination
+Services and features may be updated, modified, or terminated based on operational needs. Changes will be announced in-app. If you disagree with modifications, terminate the services. Continued use implies acceptance.
+Due to the nature of internet services, we may suspend or terminate services per regulations, agreements, or necessity while protecting your rights.
+Privacy Policy
+
+To enhance your experience, we may collect personal information. We prioritize protecting your data and handle it according to our Privacy Policy.
+By using paid services, third parties (e.g., app stores, payment platforms) may process your financial information (e.g., name, email) for "PocketFlash."
+Review our Privacy Policy carefully. Disagreement requires discontinuation of the services.
+Liability
+
+If you violate this Agreement, we may delete, block, or restrict content and/or:
+Suspend or terminate your services.
+
+Terminate your access to the app.
+
+Pursue legal action.
+
+No fees will be refunded. You bear all losses (e.g., service interruption, data loss).
+Compensate us for damages caused by your actions.
+Other Terms
+
+This Agreement’s copyright belongs to "PocketFlash." We reserve the right to interpret and modify it.
+
+This Agreement is governed by the laws of China. Partial invalidity (if any) does not void other clauses.
+
+Disputes shall first be resolved through friendly negotiation. Unresolved disputes shall be submitted to the competent court in the locality of "PocketFlash."
+
+Failure to enforce rights does not waive them. Partial exercise does not limit future rights.
+
+Contact our support email: yanzhoubin@gmail.com for inquiries.
+
+Auto-Renewal Service Rules
+(Supplementary to the Membership Agreement)
+Service Name: Auto-Renewal
+
+Activation: By activating this service, you authorize "PocketFlash" to deduct fees for the next billing cycle from your linked account (e.g., Apple ID, payment platforms) before expiration. Ensure your account has sufficient funds.
+
+Plans:
+
+Monthly Auto-Renewal: 31 natural days.
+
+Annual Auto-Renewal: 365 natural days.
+Fees: Charges align with the price displayed at activation (unaffected by future price changes).
+
+Renewal Timing: Fees are deducted 24 hours before expiration.
+
+Troubleshooting: If payment succeeds but membership isn’t activated, use "Restore Purchase" under "Settings" → "About." If unresolved, exit the app and retry or contact noahdeveloper@163.com.
+
+Cancellation: Cancel at least 24 hours in advance via:
+
+Apple Users: "Settings" → "iTunes Store & App Store" → "Apple ID" → "View Apple ID" → "Subscriptions" → Cancel "PocketFlash."
+
+Android Users: Contact support at yanzhoubin@gmail.com.
+Plan Changes: Cancel your current auto-renewal and activate a new plan.
+
+Limits: One Apple ID can only activate auto-renewal for one "PocketFlash" account.
+
+---
+WenLi Lei

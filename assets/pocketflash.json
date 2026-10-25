@@ -1,0 +1,15 @@
+{
+    "notice": {
+        "cn": "欢迎来到PocketFlash！导入您最喜欢的Flash游戏并享受！",
+        "en": "Welcome to PocketFlash! Import your favorite Flash games and enjoy!",
+        "hant": "歡迎來到PocketFlash！導入您最喜歡的Flash遊戲並享受！",
+        "ja": "PocketFlashへようこそ！お気に入りのFlashゲームをインポートして楽しもう！",
+        "ru": "Добро пожаловать в PocketFlash! Импортируйте свои любимые Flash-игры и наслаждайтесь!",
+        "other": "Welcome to PocketFlash! Import your favorite Flash games and enjoy!"
+    },
+    "try_count": 3,
+    "market": {
+        "cn": "assets/market.json",
+        "en": "assets/market.json"
+    }
+}

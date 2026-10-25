@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWF Player</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #player {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 核心修复：确保 Ruffle 播放器元素填充满父容器 */
+        ruffle-player {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            /* 可选：如果是像素游戏，可以保持清晰 */
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // 核心诊断工具：将 JS 控制台日志转发到 Flutter
+        (function () {
+            const originalLog = console.log;
+            const originalWarn = console.warn;
+            const originalError = console.error;
+
+            function sendToFlutter(type, args) {
+                const message = Array.from(args).map(arg => {
+                    if (typeof arg === 'object') return JSON.stringify(arg);
+                    return String(arg);
+                }).join(' ');
+
+                if (window.FlutterLog) {
+                    window.FlutterLog.postMessage(`[${type}] ${message}`);
+                }
+            }
+
+            console.log = function () {
+                sendToFlutter('LOG', arguments);
+                originalLog.apply(console, arguments);
+            };
+            console.warn = function () {
+                sendToFlutter('WARN', arguments);
+                originalWarn.apply(console, arguments);
+            };
+            console.error = function () {
+                sendToFlutter('ERROR', arguments);
+                originalError.apply(console, arguments);
+            };
+
+            window.onerror = function (msg, url, line, col, error) {
+                sendToFlutter('EXCEPTION', [`${msg} at ${line}:${col}`]);
+                return false;
+            };
+        })();
+    </script>
+    <script>
+        // 动态支持渲染模式切换：webgl (高性能) 或 canvas (中文字体兼容)
+        const urlParams = new URLSearchParams(window.location.search);
+        const rendererParam = urlParams.get('renderer');
+        const activeRenderer = (rendererParam === 'canvas') ? 'canvas' : 'webgl';
+        console.log('[RuffleConfig] Active preferredRenderer:', activeRenderer);
+
+        // 优化配置：提升性能画质并恢复网络加载能力
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "publicPath": "ruffle/",
+            "splashScreen": false,
+            "contextMenu": "hidden",
+            "preloader": false,
+            "allowScriptAccess": true,
+            "autoplay": "on",
+            "unmuteOverlay": "hidden",
+            "letterbox": "on",
+            "quality": "high",
+            "warnOnUnsupportedContent": false,
+            "preferredRenderer": activeRenderer,
+            "defaultFonts": {
+                "sans": ["PingFang SC", "PingFang TC", "Heiti SC", "STHeiti", "Microsoft YaHei", "SimSun", "SimHei", "sans-serif"],
+                "serif": ["Songti SC", "SimSun", "Times New Roman", "serif"],
+                "typewriter": ["Courier New", "monospace"]
+            },
+            "logLevel": "warn",
+            "allowNetworking": "all",
+            "openUrlMode": "deny"
+        };
+    </script>
+    <script>
+        // 🔑 关键修复：强制 WebGL 上下文保留绘制缓冲区
+        // Ruffle 的 config.contextOptions 不会被传递给 getContext()
+        // 必须在 Ruffle 加载之前拦截 getContext，注入 preserveDrawingBuffer: true
+        // 否则 canvas.toDataURL() 只能捕获空白/清除后的 buffer
+        (function() {
+            const originalGetContext = HTMLCanvasElement.prototype.getContext;
+            HTMLCanvasElement.prototype.getContext = function(type, attributes) {
+                if (type === 'webgl' || type === 'webgl2' || type === 'experimental-webgl') {
+                    attributes = Object.assign({}, attributes || {});
+                    attributes.preserveDrawingBuffer = true;
+                    console.log('[WebGL] Patched getContext: preserveDrawingBuffer=true for ' + type);
+                }
+                return originalGetContext.call(this, type, attributes);
+            };
+            console.log('[WebGL] getContext monkey-patch installed');
+        })();
+    </script>
+    <div id="player"></div>
+    <script src="ruffle/ruffle.js"></script>
+
+    <script>
+        let rufflePlayerInstance = null;
+
+        window.addEventListener("load", (event) => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            const container = document.getElementById("player");
+            container.appendChild(player);
+            rufflePlayerInstance = player;
+
+            // 获取 SWF URL，但不立即加载——等存档数据写入 IndexedDB 后再加载
+            const urlParams = new URLSearchParams(window.location.search);
+            const swfUrl = urlParams.get('swf');
+            window._pendingSwfUrl = swfUrl;
+
+            // 通知 Flutter：Ruffle 已初始化，准备好接收存档数据
+            console.log("[SaveDebug] Ruffle initialized, waiting for save data before loading SWF...");
+            if (window.RuffleReady) {
+                window.RuffleReady.postMessage("ready");
+            }
+        });
+
+        /**
+         * 由 Flutter 调用：先写入存档数据到 IndexedDB，再加载 SWF
+         * 这确保了 Ruffle 在加载 SWF 时能从 IndexedDB 读到存档
+         * @param {string} saveDataJson - JSON 格式的存档数据，空字符串表示无存档
+         */
+        async function loadSwfWithSave(saveDataJson) {
+            const swfUrl = window._pendingSwfUrl;
+            if (!swfUrl) {
+                console.error("[SaveDebug] No SWF URL to load");
+                return;
+            }
+
+            if (saveDataJson && saveDataJson.length > 0) {
+                console.log(`[SaveDebug] Writing save data (${saveDataJson.length} chars) to IndexedDB...`);
+                try {
+                    await restoreSaveToIndexedDB(saveDataJson);
+                    console.log("[SaveDebug] Save data restored to IndexedDB");
+                } catch (e) {
+                    console.error("[SaveDebug] Failed to restore save data:", e);
+                }
+            } else {
+                console.log("[SaveDebug] No save data, loading SWF fresh");
+            }
+
+            // 现在加载 SWF——Ruffle 会从 IndexedDB 读取存档
+            console.log("[SaveDebug] Loading SWF:", swfUrl);
+            rufflePlayerInstance.load({
+                url: swfUrl,
+                backgroundColor: "#000000",
+                allowScriptAccess: true,
+                wmode: "opaque"
+            });
+        }
+
+        /**
+        * Simulates a key event on the Ruffle player.
+        */
+        function simulateKey(type, key, code, keyCode) {
+            if (!rufflePlayerInstance) return;
+
+            // 核心修复：更精确的按键映射
+            // 某些 SWF 游戏引擎（如 AS3）可能更依赖 key 或 code 而不仅是 keyCode
+            let mappedKey = key;
+            let mappedCode = code;
+
+            if (key === 'Space') {
+                mappedKey = ' ';
+                mappedCode = 'Space';
+            } else if (key === 'ShiftLeft') {
+                mappedKey = 'Shift';
+                mappedCode = 'ShiftLeft';
+            } else if (key === 'ControlLeft') {
+                mappedKey = 'Control';
+                mappedCode = 'ControlLeft';
+            } else if (key === 'AltLeft') {
+                mappedKey = 'Alt';
+                mappedCode = 'AltLeft';
+            } else if (key.length === 1 && key >= 'a' && key <= 'z') { // 对于字母键，code 应为 Key + 大写字母，key 应为小写 mappedCode='Key' +
+                key.toUpperCase();
+            } else if (key.length === 1 && key >= '0' && key <= '9') { // 对于数字键，code 应为 Digit + 数字
+                mappedCode = 'Digit' + key;
+            } const event = new KeyboardEvent(type, {
+                key: mappedKey, code: mappedCode, bubbles:
+                    true, cancelable: true
+            }); // 核心修复：强制注入 keyCode 和 which，防止某些 WebView 环境下的兼容性问题
+            Object.defineProperty(event, 'keyCode', { get: () => keyCode });
+            Object.defineProperty(event, 'which', { get: () => keyCode });
+
+            console.log(`Simulating ${type}: key="${mappedKey}", code="${mappedCode}", keyCode=${keyCode}`);
+
+            // 核心修复：仅向最具体的 target 分派事件。
+            // 由于 bubbles: true，事件会自动传播到 window，手动分派会导致双倍触发。
+            const target = document.querySelector("canvas") || rufflePlayerInstance || window;
+            target.dispatchEvent(event);
+        }
+
+        /**
+        * Simulates a mouse click at the center of the player.
+        * @param {string} type - 'keydown' (mousedown) or 'keyup' (mouseup + click)
+        * @param {number} button - 0 for left click, 2 for right click
+        */
+        function simulateClick(type, button = 0) {
+            const target = document.querySelector("canvas") || rufflePlayerInstance;
+            if (!target) return;
+
+            const rect = target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            simulateClickAt(type, x, y, button);
+        }
+
+        /**
+        * Simulates a mouse click at specific coordinates.
+        */
+        function simulateClickAt(type, x, y, button = 0) {
+            const target = document.querySelector("canvas") || rufflePlayerInstance;
+            if (!target) return;
+
+            const eventType = type === 'keydown' ? 'mousedown' : 'mouseup';
+            const buttonsValue = type === 'keydown' ? (button === 2 ? 2 : 1) : 0;
+
+            const mouseEvent = new MouseEvent(eventType, {
+                clientX: x,
+                clientY: y,
+                button: button,
+                buttons: buttonsValue,
+                bubbles: true,
+                cancelable: true,
+                view: window
+            });
+            target.dispatchEvent(mouseEvent);
+
+            if (type === 'keyup') {
+                if (button === 2) {
+                    const contextEvent = new MouseEvent('contextmenu', {
+                        clientX: x,
+                        clientY: y,
+                        button: 2,
+                        buttons: 0,
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    target.dispatchEvent(contextEvent);
+                } else {
+                    const clickEvent = new MouseEvent('click', {
+                        clientX: x,
+                        clientY: y,
+                        button: 0,
+                        buttons: 0,
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    target.dispatchEvent(clickEvent);
+                }
+            }
+            console.log(`Simulating click ${type} button ${button} at (${x}, ${y})`);
+        }
+
+        // --- Long Press Logic ---
+        let longPressTimer = null;
+        const LONG_PRESS_DELAY = 500;
+
+        function onTouchStart(e) {
+            const touch = e.touches ? e.touches[0] : e;
+            const x = touch.clientX;
+            const y = touch.clientY;
+
+            if (longPressTimer) clearTimeout(longPressTimer);
+            
+            longPressTimer = setTimeout(() => {
+                console.log("Long press detected at (" + x + ", " + y + ")");
+                simulateClickAt('keydown', x, y, 2);
+                setTimeout(() => simulateClickAt('keyup', x, y, 2), 50);
+                longPressTimer = null;
+            }, LONG_PRESS_DELAY);
+        }
+
+        function onTouchEnd() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        }
+
+        function onTouchMove(e) {
+            // Optional: detect if moved significantly and cancel
+            const touch = e.touches ? e.touches[0] : e;
+            // Simple cancel on any move for now
+            onTouchEnd();
+        }
+
+        window.addEventListener("load", () => {
+            const playerDiv = document.getElementById("player");
+            playerDiv.addEventListener("mousedown", (e) => {
+                if (e.button === 0) onTouchStart(e);
+            });
+            playerDiv.addEventListener("mouseup", onTouchEnd);
+            playerDiv.addEventListener("mousemove", onTouchMove);
+
+            playerDiv.addEventListener("touchstart", onTouchStart, { passive: true });
+            playerDiv.addEventListener("touchend", onTouchEnd, { passive: true });
+            playerDiv.addEventListener("touchmove", onTouchMove, { passive: true });
+        });
+
+        /**
+        * Sets the player volume.
+        * @param {number} volume - 0.0 to 1.0
+        */
+        function setVolume(volume) {
+            if (!rufflePlayerInstance) return;
+            rufflePlayerInstance.volume = volume;
+        }
+
+        function setMuted(muted) {
+            if (!rufflePlayerInstance) return;
+            rufflePlayerInstance.volume = muted ? 0 : 1;
+        }
+
+        // 核心修复：自动检测并修复损坏的数据库 (无 store 的情况)
+        window.addEventListener("load", async () => {
+            await checkAndRepairDB();
+        });
+
+        async function checkAndRepairDB() {
+            try {
+                const dbName = "ruffle";
+                // Check if databases method is supported to peek without opening
+                if (indexedDB.databases) {
+                    const dbs = await indexedDB.databases();
+                    const existing = dbs.find(d => d.name === dbName);
+                    // If DB doesn't exist, fine. Use Ruffle default.
+                }
+
+                const req = indexedDB.open(dbName);
+                req.onsuccess = (e) => {
+                    const db = e.target.result;
+                    // 只有 version > 1 且无 store 才是坏库（version 1 无 store 说明刚被创建，正常）
+                    if (db.version > 1 && db.objectStoreNames.length === 0) {
+                        console.warn("[SaveDebug] CORRUPTED DB DETECTED (version>1, No stores). Deleting...");
+                        db.close();
+                        const delReq = indexedDB.deleteDatabase(dbName);
+                        delReq.onsuccess = () => {
+                            console.log("[SaveDebug] DB Deleted. Reloading...");
+                            if (!sessionStorage.getItem("db_repaired")) {
+                                sessionStorage.setItem("db_repaired", "true");
+                                window.location.reload();
+                            } else {
+                                console.warn("[SaveDebug] Loop protection: Stop reloading.");
+                            }
+                        };
+                    } else {
+                        console.log(`[SaveDebug] DB Check OK. Version: ${db.version}, Stores: ${Array.from(db.objectStoreNames).join(',')}`);
+                        db.close();
+                    }
+                };
+                req.onupgradeneeded = (e) => {
+                    // DB 不存在或需要升级，让事务正常完成，Ruffle 之后会创建自己的 store
+                    console.log(`[SaveDebug] DB upgrade: ${e.oldVersion} -> ${e.newVersion}, letting it proceed`);
+                };
+                req.onerror = (e) => {
+                    console.error("[SaveDebug] DB open error:", e.target.error);
+                };
+            } catch (e) { console.error("[SaveDebug] Repair check failed: " + e); }
+        }
+
+        /**
+         * 辅助函数：将 ArrayBuffer/Uint8Array 转为 base64
+         */
+        function bytesToBase64(data) {
+            let bytes;
+            if (data instanceof ArrayBuffer) {
+                bytes = new Uint8Array(data);
+            } else if (data instanceof Uint8Array) {
+                bytes = data;
+            } else {
+                return null;
+            }
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        /**
+         * 辅助函数：将 base64 转为 Uint8Array
+         */
+        function base64ToBytes(base64) {
+            const binaryString = window.atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes;
+        }
+
+        /**
+         * 提取所有 SharedObject 数据，保留 key-value 结构
+         * 返回 JSON 字符串：{"storeName": [{"k": "key", "v": "base64..."}, ...]}
+         */
+        async function getSaveData() {
+            const dbName = "ruffle";
+            console.log("[SaveDebug] Extracting save data from IndexedDB: " + dbName);
+
+            try {
+                const db = await new Promise((resolve, reject) => {
+                    const req = indexedDB.open(dbName);
+                    req.onsuccess = (e) => resolve(e.target.result);
+                    req.onerror = (e) => { console.error("[SaveDebug] DB open error:", e); resolve(null); };
+                });
+
+                if (!db) return null;
+                if (db.objectStoreNames.length === 0) {
+                    console.warn("[SaveDebug] DB has no stores");
+                    db.close();
+                    return null;
+                }
+
+                const result = {};
+
+                for (const storeName of db.objectStoreNames) {
+                    const entries = await new Promise((resolve) => {
+                        const tx = db.transaction([storeName], "readonly");
+                        const store = tx.objectStore(storeName);
+                        const keysReq = store.getAllKeys();
+                        
+                        keysReq.onsuccess = async (e) => {
+                            const keys = e.target.result;
+                            const items = [];
+                            
+                            for (const key of keys) {
+                                const getReq = store.get(key);
+                                const rawValue = await new Promise((res) => {
+                                    getReq.onsuccess = (ev) => res(ev.target.result);
+                                    getReq.onerror = () => res(null);
+                                });
+                                
+                                if (rawValue != null) {
+                                    // Ruffle 可能直接存 Uint8Array，也可能存 {value: Uint8Array}
+                                    let data = rawValue.value ?? rawValue;
+                                    const b64 = bytesToBase64(data);
+                                    if (b64) {
+                                        items.push({ k: key, v: b64 });
+                                    }
+                                }
+                            }
+                            resolve(items);
+                        };
+                        keysReq.onerror = () => resolve([]);
+                    });
+
+                    if (entries.length > 0) {
+                        result[storeName] = entries;
+                    }
+                }
+
+                db.close();
+
+                if (Object.keys(result).length === 0) {
+                    console.log("[SaveDebug] No save data found in IndexedDB");
+                    return null;
+                }
+
+                const json = JSON.stringify(result);
+                console.log(`[SaveDebug] Extracted: ${Object.keys(result).length} stores, total keys: ${Object.values(result).reduce((s, a) => s + a.length, 0)}, JSON length: ${json.length}`);
+                return json;
+            } catch (e) {
+                console.error("[SaveDebug] getSaveData error:", e);
+                return null;
+            }
+        }
+
+        /**
+         * 恢复存档数据到 IndexedDB（在 SWF 加载之前调用）
+         * @param {string} jsonData - getSaveData() 返回的 JSON 字符串
+         */
+        async function restoreSaveToIndexedDB(jsonData) {
+            const data = JSON.parse(jsonData);
+            const dbName = "ruffle";
+
+            return await new Promise((resolve, reject) => {
+                const req = indexedDB.open(dbName);
+                
+                req.onsuccess = async (e) => {
+                    const db = e.target.result;
+                    
+                    for (const [storeName, entries] of Object.entries(data)) {
+                        if (!db.objectStoreNames.contains(storeName)) {
+                            console.warn(`[SaveDebug] Store "${storeName}" not found in DB, skipping`);
+                            continue;
+                        }
+
+                        await new Promise((resolveTx) => {
+                            const tx = db.transaction([storeName], "readwrite");
+                            const store = tx.objectStore(storeName);
+                            
+                            // 先清空，再逐条写入（保留 key）
+                            store.clear().onsuccess = () => {
+                                let pending = entries.length;
+                                if (pending === 0) { resolveTx(); return; }
+                                
+                                for (const { k, v } of entries) {
+                                    const bytes = base64ToBytes(v);
+                                    const addReq = store.add(bytes, k); // 使用原始 key
+                                    addReq.onsuccess = () => {
+                                        pending--;
+                                        if (pending <= 0) resolveTx();
+                                    };
+                                    addReq.onerror = () => {
+                                        console.error(`[SaveDebug] Failed to add key "${k}":`, addReq.error);
+                                        pending--;
+                                        if (pending <= 0) resolveTx();
+                                    };
+                                }
+                            };
+                            tx.oncomplete = () => resolveTx();
+                            tx.onerror = () => resolveTx();
+                        });
+                    }
+
+                    db.close();
+                    console.log("[SaveDebug] IndexedDB restore complete");
+                    resolve(true);
+                };
+
+                req.onerror = () => {
+                    console.error("[SaveDebug] restoreSaveToIndexedDB: failed to open DB:", req.error);
+                    resolve(false);
+                };
+            });
+        }
+
+        /**
+        * 供 Flutter 调用：触发导出并传回结果
+        */
+        async function triggerSaveExport() {
+            console.log("[SaveDebug] triggerSaveExport called");
+
+            // 尝试触发 Ruffle 刷新内部状态到 IDB
+            if (rufflePlayerInstance) {
+                try {
+                    rufflePlayerInstance.blur();
+                    await new Promise(r => setTimeout(r, 100));
+                    rufflePlayerInstance.focus();
+                } catch (e) { console.warn("[SaveDebug] Flush attempt failed: " + e); }
+            }
+
+            // 给 IDB 写入一点缓冲时间
+            await new Promise(r => setTimeout(r, 500));
+
+            const json = await getSaveData();
+            if (window.ArchiveChannel) {
+                console.log("[SaveDebug] Posting to ArchiveChannel, data length: " + (json ? json.length : "null"));
+                window.ArchiveChannel.postMessage(json || "");
+            } else {
+                console.error("[SaveDebug] ArchiveChannel not found");
+            }
+        }
+
+        /**
+         * Captures a screenshot of the player canvas.
+         * Uses requestAnimationFrame to ensure capture happens during an active rendering frame.
+         */
+        async function getScreenshot() {
+            try {
+                // Find the canvas element inside Ruffle's shadow DOM
+                let canvas = null;
+                if (rufflePlayerInstance) {
+                    if (rufflePlayerInstance.shadowRoot) {
+                        canvas = rufflePlayerInstance.shadowRoot.querySelector('canvas');
+                    }
+                    if (!canvas) {
+                        canvas = rufflePlayerInstance.querySelector('canvas');
+                    }
+                }
+                // Fallback: search globally
+                if (!canvas) {
+                    canvas = document.querySelector('canvas');
+                }
+
+                if (!canvas) {
+                    console.warn("[Screenshot] No canvas found.");
+                    return null;
+                }
+
+                console.log(`[Screenshot] Canvas found: ${canvas.width}x${canvas.height}, webgl=${!!canvas.getContext('webgl2') || !!canvas.getContext('webgl')}`);
+                
+                // 使用 requestAnimationFrame 确保在渲染帧期间捕获
+                // 这样即使 preserveDrawingBuffer 有问题，也能在帧渲染时获取画面
+                return new Promise((resolve) => {
+                    requestAnimationFrame(() => {
+                        try {
+                            const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+                            console.log(`[Screenshot] Captured data URL length: ${dataUrl.length}`);
+                            resolve(dataUrl);
+                        } catch (e) {
+                            console.error("[Screenshot] toDataURL failed in rAF: " + e);
+                            resolve(null);
+                        }
+                    });
+                });
+            } catch (e) {
+                console.error("[Screenshot] Capture failed: " + e);
+                return null;
+            }
+        }
+
+        /**
+         * Triggers screenshot and sends via Channel
+         */
+        async function triggerScreenshot() {
+            const base64 = await getScreenshot();
+            if (window.ScreenshotChannel) {
+                window.ScreenshotChannel.postMessage(base64 || "");
+            } else {
+                console.warn("[Screenshot] ScreenshotChannel not found.");
+            }
+        }
+    </script>
+
+<script>
+// Recovery bridge: Flutter can pass a locally imported SWF as base64 bytes.
+window.loadSwfBase64 = async function(base64) {
+  while (!window.RufflePlayer || !window.RufflePlayer.newest || !window.RufflePlayer.newest()) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  while (!rufflePlayerInstance) { await new Promise(resolve => setTimeout(resolve, 100)); }
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  await rufflePlayerInstance.load({ data: bytes, backgroundColor: '#000000', allowScriptAccess: true, wmode: 'opaque' });
+};
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+Privacy Policy
+
+(Updated: July 1, 2025)
+
+WenLi Lei highly respects and values the protection of users' personal privacy rights. We will use and disclose your personal information in accordance with the provisions of this Privacy Policy. We fully understand the importance of personal information to you and will make every effort to protect the security and reliability of your personal information. This Privacy Policy explains how we collect and use your personal information and helps you understand your rights. Please read this Privacy Policy carefully before using our services.
+
+This policy will help you understand:
+Definitions
+
+How We Collect and Use Your Personal Information
+
+How We Share, Transfer, and Disclose Your Personal Information
+
+How We Protect and Store Your Personal Information
+
+Your Rights
+
+Protection of Minors
+
+How This Policy is Updated
+
+Scope of Application
+
+How to Contact Us
+
+Definitions
+
+Personal Information: Refers to any information recorded electronically or by other means that, taken alone or in combination with other information, can identify a specific natural person or reflect the activities of a specific natural person. The types of personal information covered by this Privacy Policy are listed under the section "How We Collect and Use Your Personal Information".
+
+Sensitive Personal Information: Refers to personal information that, if leaked, illegally provided, or abused, may endanger personal or property safety, and is highly likely to cause damage to personal reputation, physical and mental health, or discriminatory treatment, etc. Sensitive personal information involved in this Privacy Policy includes: your personal identity information (including ID card); online identity recognition information (including account name, account nickname, and passwords related to the foregoing); other information (including contact list, personal phone number, mobile number, travel information, web browsing records, accommodation information, precise location information). For the sensitive personal information listed above, besides defining and listing them uniformly here, we will also highlight them in this Privacy Policy using methods such as bold font or separate indications to draw your attention.
+How We Collect and Use Your Personal Information
+
+In the process of continuously improving product functionality and optimizing user experience, we will only collect and use your personal information for the following purposes stated in this policy:
+
+(A) To Help You Register as a User of 8090后记忆
+To help you create an account and enable us to provide you with registered user services, we offer multiple registration channels for you to choose from.
+When you choose to register using a mobile phone number or email address, you need to provide us with your mobile phone number, email address, and password (encrypted). We use this information to send verification codes so you can submit and verify your identity.
+
+When you choose to use a third-party account (e.g., WeChat, QQ, Weibo) for easier registration and login, we will indirectly access and collect your personal information that you expressly authorize (such as your avatar and nickname in the third-party account, subject to the public information and permissions authorized by that third-party account) and bind your third-party account to your registered account. If you refuse to provide the information under the third-party account, you will not be able to choose the third-party account registration and login method. We ensure the legality of the sources of this personal information from third-party accounts.
+
+You acknowledge that we collect mobile phone numbers and email addresses to comply with network real-name requirements stipulated by relevant laws and regulations. If you do not provide such information, you may not be able to use our registered user services normally. However, failing to provide mobile phone numbers, email addresses, third-party account information, or supplementary information will not affect your use of the basic functions of the service.
+
+When you use features involving displaying location information, such as publishing information or exporting files, we may request your authorization for location permissions and collect location information related to the service. If you refuse to authorize access to precise location information, you will not be able to use features that require location display, but this will not affect your use of other product functions.
+
+(B) To Improve Our Products or Services
+We may also obtain other information from you for the reasonable need of improving our products or services, including feedback information provided when you contact customer service, questionnaire response information sent to us when you participate in surveys, and related information obtained with your authorization when you interact with our affiliates or partners. For information collected from your various devices, we may associate it to provide you with consistent services across those devices.
+
+(C) Information Collected by Third-Party Websites and Analytics Service Providers
+We may cooperate with third-party websites or analytics service providers to display advertisements to you or to help us better understand how our services are used, such as service duration. These third-party partners may collect relevant information about you, which may be transmitted to and stored by the relevant third-party partner. We cannot control the technologies used by third parties and are not responsible for any third party's privacy policy, information handling practices, or the content on any third-party website.
+
+(D) To Provide You with Security
+To enhance the security of your use of our services, protect you, other users, or the public from harm to personal or property safety, better prevent security risks such as phishing websites, fraud, network vulnerabilities, computer viruses, network attacks, and network intrusion, and more accurately identify violations of laws, regulations, or our relevant agreement rules, we may use or integrate your registration information, device information, network logs, as well as information such as the frequency of your application usage, crash data, overall usage, performance data, and application source. This is done to comprehensively assess your account and transaction risks, conduct identity verification, detect and prevent security incidents, and take necessary recording, auditing, analysis, and disposal measures according to law. For example, we may analyze abnormal account activity, multi-device logins, or unusual traffic to protect your account security.
+
+(E) Other Purposes and Uses
+In the following circumstances, we will separately seek your prior consent in accordance with laws and regulations:
+When we use information for other purposes or uses not specified in this policy.
+
+When we use information collected for a specific purpose for another purpose.
+
+(F) Exceptions Requiring Prior Authorization and Consent
+According to relevant laws and regulations, the collection of your personal information without your authorization and consent is permitted in the following circumstances:
+Related to national security or national defense security;
+
+Related to public security, public health, or significant public interests;
+
+Related to criminal investigation, prosecution, trial, and execution of judgments, etc.;
+
+Necessary to protect the life, property, and other significant legitimate rights and interests of the personal information subject or others, where it is difficult to obtain the consent of the individual;
+
+Where the personal information is voluntarily disclosed to the public by you;
+
+Where the personal information is collected from legally disclosed sources, such as legal news reports or government information disclosure channels;
+
+Necessary for concluding a contract as requested by you;
+
+Necessary for maintaining the safe and stable operation of the provided products or services, such as discovering and handling product or service failures;
+
+Necessary for legal news reporting;
+
+Where academic research institutions conduct statistical or academic research based on public interest, and when providing academic research or descriptive results externally, the personal information contained in the results is de-identified;
+
+Other circumstances stipulated by laws and regulations.
+How We Share, Transfer, and Disclose Your Personal Information
+
+(A) Sharing and Disclosure
+During product development, while the application is running (including running in the background), we need to collect your device's unique identifiers (IMEI/android ID/DEVICE_ID/IDFA, SIM card IMSI information) to provide statistical analysis services. We also collect app launch data and error logs to analyze and improve performance and user experience, offering users a better service.
+
+Our APP or the third-party plugins (SDKs) we use may collect user information (including but not limited to IMEI, IMSI, device MAC address, installed app list, device serial number, Android ID). These permissions are primarily used for implementing product security features, pushing service content, maintaining/improving our products/services, and for statistics on active issues or crashes. If usage exceeds this reasonable scope, we will request your authorization again, informing you of the extended purpose. You can choose to refuse; refusal will not affect other functions.
+
+Our APP will access SD card data (only after your permission) primarily to save your device identifier for routine anti-cheating mechanisms. The SDKs used include umeng/Utdid, Ali Device Identification SDK, com.ta.utdid2, and Umeng+ SDK.
+
+While our product/services display service content to you during browsing, we collect some of your information based on your specific operations. This includes the following personal information:
+
+Device Information: Including unique device identifier, login IP address, device MAC address, IMEI, device model, device name, device identifier, browser type and settings, language settings, operating system and application version, network access method, network quality data, mobile network information (including carrier name), product version number, device location-related information (including location information you authorize us to access). Without your consent, our APP will not actively collect any of your information, including but not limited to IMEI, IMSI, OAID, device MAC address, installed app list, device serial number, Android ID. With your consent, our APP or the third-party SDKs it uses may collect user information (including but not limited to IMEI, IMSI, device MAC address, installed app list, device serial number, Android ID), primarily for:
+
+[Umeng+ SDK]: The Umeng+ SDK needs to collect your device MAC address, unique device identifiers (IMEI/android ID/OAID/IDFA/OPENUDID/GUID, SIM card IMSI information) to provide statistical analysis services. It calibrates report data accuracy using geographical location and provides basic anti-cheating capabilities. IMEI (Mobile Equipment Identifier) might require permissions for phone number and call state to be successfully obtained. If you refuse to grant this permission, we may not be able to provide more accurate high-quality services or promptly locate problems you encounter during use, but it will not affect your use of other functions within the software.
+
+Our product accesses the list of apps installed on your phone to facilitate normal sharing of this app's content and proper redirection to other applications.
+
+Some versions of our product might use camera permissions to recognize or translate text information appearing on screen via the camera. We will request this permission when using this feature. You can refuse this authorization; it will not affect your use of other functions.
+
+To better serve our customers, we may use third-party software development kits (SDKs). We evaluate the security capabilities of these partners comprehensively and require them to adhere to legal cooperation agreements. We also strictly monitor the software development kits (SDKs) and application programming interfaces (APIs) used by partners to obtain information to protect user data security.
+
+List of Third-Party SDKs:
+OPEN_AD (Toutiao, Ocean Engine)
+
+Purpose: Advertising content provider.
+
+Personal Information Collected: Device identifier information, device MAC address, unique device identifiers (IMEI, IDFA, IMSI, Android ID, device hardware serial number), accelerometer sensor.
+
+Collection Method: Embedded third-party SDK; SDK collects and transmits personal information.
+
+Third Party: Beijing Ocean Engine Network Technology Co., Ltd.
+
+Link: https://www.pangle.cn/compliance_guide
+UMENG/UMENG+ (Umeng Common/Umeng+)
+
+Purpose: User statistics.
+
+Personal Information Collected: Device information (IMEI/Mac/android ID/IDFA/OPENUDID/GUID/SIM card IMSI).
+
+Collection Method: Embedded third-party SDK; SDK collects and transmits personal information.
+
+Third Party: Umeng Tongxin (Beijing) Technology Co., Ltd.
+
+Link: https://www.umeng.com/page/policy?spm=a213m0.17692878.0.0.6375378e01JMi9
+ByteDance (Bytedance)
+
+Purpose: Advertising content provider.
+
+Personal Information Collected: Device information (IMEI/Mac/android ID/IDFA/OPENUDID/GUID/SIM card IMSI), device IDs (DEVICEID, MAC address), WiFi SSID and BSSID, location information (precise and approximate location, to display regional ads and calibrate report accuracy, providing basic anti-cheating), accelerometer sensor.
+
+Collection Method: Embedded third-party SDK; SDK collects and transmits personal information.
+
+Third Party: Beijing Bytedance Technology Co., Ltd.
+
+Link: https://privacy.bytedance.com/zh/policy?id=17
+Clipboard
+
+Purpose: To enable users to copy and paste clipboard content.
+
+Personal Information Collected: Text content of the clipboard.
+
+Collection Method: Through copying content to and pasting content from the clipboard.
+
+We will not share your private personal information with any company, organization, or individual outside of our company, except in the following circumstances:
+When we have obtained your explicit consent or authorization (and that of your guardian if applicable), or at your active discretion.
+
+We may share your personal information externally when required by laws and regulations, for litigation dispute resolution, or upon lawful requests by administrative or judicial authorities. For example, if we determine that you have violated laws, regulations, or seriously breached this policy or relevant platform rules, or to protect the personal and property safety of our company's users, affiliates, or the public from infringement, we may disclose your personal information according to law or platform rules, including related violations and measures taken against you.
+
+Sharing your personal information with our affiliates. In such cases, we will only share necessary personal information, bound by the purposes stated in this Privacy Policy. If our affiliates intend to change the purpose of processing the information, they will seek your authorization and consent again.
+
+Situations where you provide personal information voluntarily include:
+(1) Additional Features Based on Device Photo Album Permission: When using features like uploading/updating profile pictures or providing feedback, we will need access to your device's photo album permission and collect the image/video content information you provide (Personal Information). Refusal only affects this specific function, not other basic features. You can manage this permission in your device settings; granting access authorizes us to access, obtain, collect, and use that specific Personal Information. Canceling the permission stops collection and disables related services, but previously collected information (unless legally deleted) will still be processed/stored based on your prior authorization.
+
+(2) Additional Features Based on Device Camera Permission: When using camera functions (scanning for recognition, login authorization, download QR codes), uploading/updating profile pictures, or using text/image/video features, we will need camera permission and collect image/video content (Personal Information). Refusal only affects this specific function. Granting permission via device settings authorizes us to access, obtain, collect, and use that specific Personal Information. Canceling permission stops collection and disables related services, but previously collected information (unless legally deleted) will still be processed/stored based on your prior authorization.
+
+(3) Additional Features Based on Device Microphone Permission: When using features like voice translation or online customer service communication, we will need microphone permission and collect your voice information/voice interactions (Personal Information). Refusal only affects this specific function. Granting permission via device settings authorizes us to access, obtain, collect, and use that specific Personal Information. Canceling permission stops collection and disables related services, but previously collected information (unless legally deleted) will still be processed/stored based on your prior authorization.
+
+(4) Additional Features Based on Location Permission: For specific services involving maps or getting city information, we may request and collect your location after authorization. Granting permission via device settings authorizes us to access, obtain, collect, and use that specific Personal Information (location). Canceling permission stops collection and disables related services, but previously collected location information (unless legally deleted) will still be processed/stored based on your prior authorization.
+
+(B) Transfer
+We will not transfer your personal information to any company, organization, or individual, except in the following circumstances:
+Transfer with explicit consent: After obtaining your explicit consent, we will transfer your personal information to other parties.
+
+During a merger, acquisition, bankruptcy liquidation, or similar event involving our company: If personal information transfer is involved, we will require the new holder of your personal information to continue being bound by this policy; otherwise, we will require that company, organization, or individual to re-seek your authorization and consent.
+
+(C) Public Disclosure
+We will only publicly disclose your personal information under the following circumstances, and with security protection measures meeting industry standards:
+At your request, disclosing the specific personal information you designate in the manner you explicitly agree to.
+
+When required by law, regulation, mandatory administrative law enforcement, or judicial requirements. We may publicly disclose your personal information according to the required type and method. We require the presentation of corresponding legal documents for such requests. We strive for transparency within legal limits and carefully review all requests to ensure they have a legal basis. Disclosure will be limited to data that law enforcement has the legal right to obtain for specific investigation purposes.
+
+(D) Exceptions Requiring Prior Authorization for Sharing, Transfer, or Disclosure
+According to relevant laws and regulations, prior authorization and consent is not required for sharing, transferring, or publicly disclosing your personal information in the following circumstances:
+Directly related to national security or national defense security;
+
+Directly related to public security, public health, or significant public interests;
+
+Related to criminal investigation, prosecution, trial, and execution of judgments, etc.;
+
+Necessary to protect the life, property, and other significant legitimate rights and interests of the personal information subject or others, where it is difficult to obtain the consent of the individual;
+
+Where the personal information is voluntarily disclosed to the public by the personal information subject;
+
+Other circumstances stipulated by laws, regulations, etc.
+
+According to legal provisions, the sharing and transfer of de-identified personal information, where the data recipient cannot restore and re-identify the personal information subject, does not constitute the sharing, transfer, or public disclosure of personal information. The storage and processing of such data will not require separate notification or consent.
+How We Protect and Store Your Personal Information
+
+(A) Technical Protection
+To protect your information security, we strive to employ various reasonable physical, electronic, and managerial security measures that comply with industry standards to protect your information from leakage, damage, or loss, including but not limited to SSL, encrypted information storage, and access control to data centers. We use encryption to enhance the security of personal information; we employ trusted protection mechanisms to prevent malicious attacks; and we implement access control mechanisms to ensure only authorized personnel can access personal information.
+
+(B) Comprehensive System Measures
+We have established protection systems covering all stages of personal information processing (collection, storage, use, transfer, destruction, incident handling and reporting), supported by corresponding technical measures.
+
+(C) Personnel Security Management
+We impose strict management on employees or contractors who may access your information, including but not limited to implementing different permission levels based on roles, signing confidentiality agreements, and requiring dual authorization from senior management for bulk access or during activities like system migration or legally required cooperation with law enforcement. We use existing technology to provide appropriate security measures to protect your information, offering reasonable safeguards and striving to prevent leakage, damage, or loss. We conduct security and privacy training to enhance employee awareness about protecting personal information.
+
+(D) Sensitive Information and Password Protection Tips
+Sensitive Information Protection Note: Information you voluntarily share or publicly disclose while using our services may involve your own or others' personal, even sensitive, information. Please exercise caution in deciding what information to share or disclose. We will strive to secure any information you send us. If our physical, technical, or administrative safeguards are breached, leading to unauthorized access, disclosure, alteration, or destruction of information that infringes your legitimate rights, we will bear corresponding legal liability.
+
+Disclosure Warning & Password Leak Handling: Please be aware that the internet is not an absolutely secure environment. We will endeavor to secure any information you send to us. Please protect your personal information carefully and only provide it to others when necessary. If you discover that your personal information, especially your account and password, has been compromised, please immediately contact our customer service so that we can take appropriate measures.
+
+Your accounts have security protection features. Please keep your account and password information safe. We ensure your information is not lost, misused, or altered through measures like backing up to other servers and encrypting user passwords. Despite these measures, please understand that no security measures are perfect.
+
+(E) Handling of Information Security Incidents
+Following the unfortunate occurrence of a personal information security incident, we will inform you as required by law, including: the basic circumstances and potential impact of the incident; measures we have taken or will take; suggestions for self-protection and risk mitigation; and remedial measures available to you. We will inform you of incident details via email, letter, phone, push notification, etc. If it is difficult to notify each individual, we will use reasonable and effective methods to make an announcement. We will also report incident handling to supervisory authorities as required.
+
+(F) How We Store Your Personal Information
+Storage Location: Our company will store personal information collected during its operations within the People's Republic of China as stipulated by laws and regulations, and will not transmit this information overseas. If business development necessitates overseas transmission, we will explicitly notify you and obtain your consent.
+
+Retention Period: We will take reasonable and feasible measures to avoid collecting irrelevant personal information. We will only retain your personal information for the minimum period necessary to achieve the purposes stated in this policy, unless you consent to an extension or unless permitted by law. After the retention period expires, we will delete your personal information or anonymize it through technical measures, unless otherwise stipulated by law.
+
+(G) Regarding Account Deletion
+We provide multiple avenues for you to request account deletion. You can apply online, contact our customer service, or use other methods we announce. After you delete your account for this product:
+You will no longer be able to log in or use the current products/services with this account.
+
+Any unexpired benefits or future expected interests associated with the account during its use of our products/services will be cleared.
+
+Content, information, data, records, etc., under the account will be deleted or anonymized (unless otherwise required by law or regulators).
+
+Once deletion is complete, it cannot be reversed.
+
+The processing period for account deletion requests is fifteen (15) business days. If, after careful consideration, you still wish to delete your account for this product, you can submit a deletion request through the relevant settings page in the product/Service you use or by following our instructions. For example, the deletion path in this product is: Me > Settings > Delete Account.
+Your Rights
+
+After completing account registration and undergoing reasonable and necessary identity verification, you can access, modify, and delete the personal information you have submitted. Generally, you can browse, modify, and delete your submitted information at any time. However, for security and identification reasons, certain initial registration information and verification data provided at registration cannot be modified.
+
+We prioritize protecting user information. You have the right to update or correct your information. Before you can update or correct your information, to protect account security and ensure that you are the one performing the update, we will first verify your identity before implementing changes.
+
+If you do not want us to obtain certain parts of your information, you can prevent us from doing so by turning off the corresponding features. After disabling these features, we will be unable to provide you with the related services.
+
+We respect user habits. If you decide to stop using our products and services, you can independently contact our official customer service to request account deletion. Before deleting your account, to protect account security and ensure it is you initiating the deletion, we will verify your identity, security status, frequently used devices, etc. Special Notice: Deleting your account is an irreversible action. Once deleted, we will promptly delete or anonymize all information related to your account. We guarantee this information will not be disclosed. You will also be unable to access services using the deleted account.
+
+Accessing the Privacy Policy: We will present this Privacy Policy to you during your first registration and allow you to make your choice to consent freely. You can also view the full policy anytime by logging into your account within the mobile application. If we terminate services or operations, we will provide at least thirty (30) days prior notice and delete or anonymize your personal information after termination.
+Protection of Minors
+
+We attach great importance to the protection of minors' personal information. If you are a minor under the age of 18, before using services related to 8090后记忆, you should read this Privacy Policy together with your parents or other guardians under their guidance and supervision, and obtain your guardian's consent before using our services or providing us with information.
+
+For the collection of minors' personal information with parental or guardian consent to use our products or services, we will only use, share, transfer, or disclose this information if permitted by law, explicitly consented to by the parent or guardian, or necessary to protect the minor. If we discover that a minor's personal information was collected without obtaining verifiable parental consent, we will strive to delete the relevant information as soon as possible.
+How This Policy is Updated
+
+(A) We may update this Privacy Policy from time to time. Without your explicit consent, we will not reduce your rights under this Privacy Policy.
+(B) After updating the Privacy Policy, we will present the revised version to you via push notifications or pop-ups upon login or version updates so you are timely informed. If you continue to use our services, it signifies your acceptance of the revised policy content.
+(C) For major changes, we will also provide more prominent notice (including but not limited to SMS, private messages, special pop-up prompts on the login page, etc.), explaining the specific changes made to the privacy policy. We also archive previous versions of this policy for your review. Major changes referred to in this Privacy Policy include, but are not limited to:
+Significant changes in our service model, such as the purpose of processing personal information, the types of personal information processed, or the usage methods of personal information.
+
+Major changes in our ownership structure or organizational framework, such as those resulting from business adjustments, bankruptcy, mergers, acquisitions, etc.
+
+Changes in the primary recipients for personal information sharing, transfer, or public disclosure.
+
+Significant changes in your rights regarding personal information processing and how to exercise them.
+
+Changes in our department responsible for personal information security, contact methods, or complaint channels.
+
+When a Personal Information Security Impact Assessment report indicates a high level of risk.
+Scope of Application
+
+This Privacy Policy applies to all services provided by WenLi Lei and its affiliates, including the "PocketFlash" client, website, etc. It does not apply to third-party products or services that have their own separate privacy policies not incorporated herein.
+Third-party products or services, such as products, websites, and advertising content displayed to you, or other products or websites linked to within "PocketFlash" services.
+
+Other third parties advertising "PocketFlash" services.
+
+Your use of these third-party services (including any personal information you provide to them) will be governed by those third parties' terms of service and privacy policies (not this one). Please read their terms carefully. Protect your personal information carefully and only provide it to third parties when necessary.
+
+The "PocketFlash" software and related services described in this Privacy Policy may vary depending on your phone model, system version, software application version, and other factors. The final product and service are those you actually use on the "PocketFlash" software and related services.
+
+If you have any questions, comments, or suggestions regarding this Privacy Policy, you can contact us via the "Feedback" page within the "PocketFlash" client or by sending an email to yanzhoubin@gmail.com.
+How to Contact Us
+
+If you have any questions, comments, or suggestions about this Privacy Policy, you can contact us through officially announced methods. We will promptly review the issues involved and reply as soon as possible after verifying your user identity. Generally, we will respond to your request within fifteen (15) working days.
