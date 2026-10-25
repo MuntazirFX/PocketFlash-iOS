@@ -1,0 +1,103 @@
+name: Build PocketFlash iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-ios:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      IOS_CERTIFICATE_BASE64: ${{ secrets.IOS_CERTIFICATE_BASE64 }}
+      IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+      IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+      IOS_PROFILE_NAME: ${{ secrets.IOS_PROFILE_NAME }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # This recovery ZIP contains Dart/assets but no ios/ Xcode project.
+      - name: Generate missing iOS platform project
+        run: flutter create --platforms=ios --org com.jimmystudio --project-name pocketflash .
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Configure signing (only when repository secrets are supplied)
+        if: ${{ env.APPLE_TEAM_ID != '' && env.IOS_CERTIFICATE_BASE64 != '' && env.IOS_CERTIFICATE_PASSWORD != '' && env.IOS_PROVISIONING_PROFILE_BASE64 != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          CERT_PATH="$RUNNER_TEMP/ios_distribution.p12"
+          PROFILE_PATH="$RUNNER_TEMP/pocketflash.mobileprovision"
+          KEYCHAIN_PATH="$RUNNER_TEMP/pocketflash-signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -base64 24)"
+
+          printf '%s' "$IOS_CERTIFICATE_BASE64" | base64 --decode > "$CERT_PATH"
+          printf '%s' "$IOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$CERT_PATH" -P "$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | tr -d '"')
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          PROFILE_PLIST="$RUNNER_TEMP/profile.plist"
+          security cms -D -i "$PROFILE_PATH" > "$PROFILE_PLIST"
+          PROFILE_UUID=$(/usr/libexec/PlistBuddy -c 'Print UUID' "$PROFILE_PLIST")
+          PROFILE_NAME=$(/usr/libexec/PlistBuddy -c 'Print Name' "$PROFILE_PLIST")
+          cp "$PROFILE_PATH" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
+
+          # Apply manual signing to the generated Runner target. The profile must
+          # match com.jimmystudio.pocketflash and be an Ad Hoc distribution profile.
+          python3 - "$APPLE_TEAM_ID" "$PROFILE_NAME" <<'PY'
+          import pathlib, re, sys
+          team, profile = sys.argv[1], sys.argv[2]
+          path = pathlib.Path('ios/Runner.xcodeproj/project.pbxproj')
+          text = path.read_text()
+          text = re.sub(r'CODE_SIGN_STYLE = [^;]+;', 'CODE_SIGN_STYLE = Manual;', text)
+          text = re.sub(r'DEVELOPMENT_TEAM = [^;]*;', f'DEVELOPMENT_TEAM = {team};', text)
+          text = re.sub(r'CODE_SIGN_IDENTITY = "?[^"]*"?;', 'CODE_SIGN_IDENTITY = "Apple Distribution";', text)
+          text = re.sub(r'PROVISIONING_PROFILE_SPECIFIER = [^;]*;', f'PROVISIONING_PROFILE_SPECIFIER = "{profile}";', text)
+          path.write_text(text)
+          PY
+
+      - name: Build signed IPA
+        if: ${{ env.APPLE_TEAM_ID != '' && env.IOS_CERTIFICATE_BASE64 != '' && env.IOS_CERTIFICATE_PASSWORD != '' && env.IOS_PROVISIONING_PROFILE_BASE64 != '' }}
+        run: flutter build ipa --release --export-method ad-hoc
+
+      - name: Build unsigned iOS archive (fallback)
+        if: ${{ env.APPLE_TEAM_ID == '' || env.IOS_CERTIFICATE_BASE64 == '' || env.IOS_CERTIFICATE_PASSWORD == '' || env.IOS_PROVISIONING_PROFILE_BASE64 == '' }}
+        run: flutter build ipa --release --no-codesign
+
+      - name: Upload signed IPA
+        if: ${{ env.APPLE_TEAM_ID != '' && env.IOS_CERTIFICATE_BASE64 != '' && env.IOS_CERTIFICATE_PASSWORD != '' && env.IOS_PROVISIONING_PROFILE_BASE64 != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PocketFlash-IPA
+          path: build/ios/ipa/*.ipa
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload unsigned archive (not directly installable)
+        if: ${{ env.APPLE_TEAM_ID == '' || env.IOS_CERTIFICATE_BASE64 == '' || env.IOS_CERTIFICATE_PASSWORD == '' || env.IOS_PROVISIONING_PROFILE_BASE64 == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PocketFlash-unsigned-xcarchive
+          path: build/ios/archive/*.xcarchive
+          if-no-files-found: error
+          retention-days: 14
