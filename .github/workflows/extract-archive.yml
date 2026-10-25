@@ -1,0 +1,67 @@
+
+name: Extract Archive.zip
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "Archive.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Extract Archive.zip
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f Archive.zip ]; then
+            echo "Archive.zip nahi mili!"
+            exit 1
+          fi
+
+          mkdir -p extracted
+          unzip -o Archive.zip -d extracted
+
+          echo "ZIP ke andar ki files:"
+          find extracted -maxdepth 3 -type f | head -100
+
+      - name: Copy source files to repository root
+        shell: bash
+        run: |
+          set -e
+
+          SOURCE_DIR="extracted/PocketFlash_Reconstructed_Source"
+
+          if [ ! -f "$SOURCE_DIR/pubspec.yaml" ]; then
+            echo "Expected Flutter source folder nahi mila."
+            exit 1
+          fi
+
+          cp -R "$SOURCE_DIR"/. .
+          rm -rf extracted
+          rm -f Archive.zip
+
+      - name: Commit extracted files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Extract PocketFlash source from Archive.zip"
+            git push
+          else
+            echo "Commit karne ke liye koi changes nahi."
+          fi
